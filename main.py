@@ -23,14 +23,48 @@ def describe_dungeon_room():
         temperature=0.5
     )
 
+    # Function to describe an object
+    def generate_object_description(object_name):
+        # Prompt the AI to describe the room the player just entered
+        response = client.completions.create(
+            model="gpt-3.5-turbo-instruct",  # Adjust the model as needed
+            prompt=""
+                   f"Describe the following item the player found in a RPG dungeon: {object_name}",
+            max_tokens=100,
+            temperature=0.5
+        )
+
     return response.choices[0].text.strip()
+
+#Extract a list of pickable objects from the room description.
+def extract_objects(description):
+    start_index = description.find("objects = [")
+    end_index = description.find("]", start_index)
+
+    if start_index != -1 and end_index != -1:
+        objects_str = description[start_index + len("objects = ["):end_index]
+        objects = [obj.strip("'\" ") for obj in objects_str.split(",")]
+        return objects
+    else:
+        return None
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
     room_description = describe_dungeon_room()
-    return render_template("index.html", room_description = room_description)
+    objects = extract_objects(room_description)
+    return render_template("index.html", room_description = room_description, objects=objects)
+
+@app.route('/description', methods=['POST'])
+def get_description():
+    # Get the object name from the request
+    object_name = request.json['objectName']
+    # Generate the description for the object using the AI (replace this with your actual AI logic)
+    object_description = generate_object_description(object_name)
+    # Return the description as a response
+    return object_description
 
 if __name__ == "__main__":
     app.run(debug=True)
