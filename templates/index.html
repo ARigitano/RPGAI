@@ -8,29 +8,16 @@
     <div class="content">
         <h1>RPGAIAI</h1>
         <p>{{ room_description }}</p>
-        {% for obj in objects %}
-            <button onclick="displayDescription('{{ obj }}')">{{ obj }}</button>
-        {% endfor %}
-        <p id="objectDescription"></p>
+        <form method="POST">
+            {% for obj in objects %}
+                <button type="submit" name="object" value="{{ obj }}">{{ obj }}</button>
+            {% endfor %}
+            <input type="hidden" name="room_description" value="{{ room_description }}">
+            <input type="hidden" name="objects" value="{{ objects }}">
+        </form>
+        {% if objDescription %}
+            <p id="objectDescription">{{ objDescription }}</p>
+        {% endif %}
     </div>
 {% endblock %}
 
-<script>
-        function displayDescription(objName) {
-            // Create a new XMLHttpRequest object
-            var xhr = new XMLHttpRequest();
-            // Configure the request
-            xhr.open("POST", "/description", true);
-            // Set the content type
-            xhr.setRequestHeader("Content-Type", "application/json");
-            // Define the callback function to handle the response
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Update the object description on the page
-                    document.getElementById("objectDescription").textContent = xhr.responseText;
-                }
-            };
-            // Send the request with the object name as JSON data
-            xhr.send(JSON.stringify({ objectName: objName }));
-        }
-    </script>
