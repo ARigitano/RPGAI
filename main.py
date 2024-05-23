@@ -24,6 +24,7 @@ def index():
             return render_template('index.html', room_description=room_description, objects=objects, inventory=inventory)
     else:
         room_description = rg.generate_room()
+        room_description = room_description.replace("Objects", "objects")
         objects = rg.extract_objects(room_description)
         return render_template('index.html', room_description=room_description, objects=objects, objDescription=None)
 

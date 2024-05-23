@@ -14,7 +14,7 @@ def generate_room():
     response = client.completions.create(
         model="gpt-3.5-turbo-instruct",
         prompt="The player enters a dungeon room. "
-               "Describe the room. "
+               "Describe the room in 75 to 100 words. "
                "Each time the description contains an object the player could put in his inventory, add the object as a string in the python list objects. "
                "Finish the description with the list: objects = ['item1', ..., 'itemn']",
         max_tokens=256,
