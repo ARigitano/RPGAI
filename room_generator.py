@@ -34,7 +34,7 @@ def extract_objects(description):
         objects = [obj.strip("'\" ") for obj in objects_str.split(",")]
         return objects
     else:
-        return None
+        return []
 
 
 # Function to generate object description
