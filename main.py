@@ -8,19 +8,18 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        room_description = request.form['room_description']
+        objects = eval(request.form['objects'])
         if 'object' in request.form:
             obj_name = request.form['object']
             obj_description = rg.generate_object_description(obj_name)
-            room_description = request.form['room_description']
-            objects = eval(request.form['objects'])
             inventory = cs.get_inventory()
             return render_template('index.html', room_description=room_description, objects=objects, objDescription=obj_description, inventory=inventory)
         elif 'pickup' in request.form:
             obj_name = request.form['pickup']
             cs.add_to_inventory(obj_name)
-            room_description = request.form['room_description']
-            objects = eval(request.form['objects'])
             inventory = cs.get_inventory()
+            objects.remove(obj_name)
             return render_template('index.html', room_description=room_description, objects=objects, inventory=inventory)
     else:
         room_description = rg.generate_room()
