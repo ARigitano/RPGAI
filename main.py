@@ -24,8 +24,10 @@ def index():
     else:
         room_description = rg.generate_room()
         room_description = room_description.replace("Objects", "objects")
+        room_description = room_description.replace("Doors", "doors")
         objects = rg.extract_objects(room_description)
-        return render_template('index.html', room_description=room_description, objects=objects, objDescription=None)
+        doors = rg.extract_doors(room_description)
+        return render_template('index.html', room_description=room_description, objects=objects, doors=doors, objDescription=None)
 
 
 if __name__ == "__main__":

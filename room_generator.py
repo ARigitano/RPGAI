@@ -16,8 +16,11 @@ def generate_room():
         prompt="The player enters a dungeon room. "
                "Describe the room in 75 to 100 words. "
                "Each time the description contains an object the player could put in his inventory, add the object as a string in the python list objects. "
-               "Finish the description with the list: objects = ['item1', ..., 'itemn']",
-        max_tokens=256,
+               "Finish the description with the list: objects = ['item1', ..., 'itemn']"
+               "Each time the description contains a door the player could go through, add the door as a string in the python list doors. "
+               "Finish the description with the list: doors = ['door1', ..., 'doorn']"
+        ,
+        max_tokens=400,
         temperature=0.7
     )
 
@@ -33,6 +36,19 @@ def extract_objects(description):
         objects_str = description[start_index + len("objects = ["):end_index]
         objects = [obj.strip("'\" ") for obj in objects_str.split(",")]
         return objects
+    else:
+        return []
+
+
+# Extract a list of doors from the room description.
+def extract_doors(description):
+    start_index = description.find("doors = [")
+    end_index = description.find("]", start_index)
+
+    if start_index != -1 and end_index != -1:
+        doors_str = description[start_index + len("doors = ["):end_index]
+        doors = [door.strip("'\" ") for door in doors_str.split(",")]
+        return doors
     else:
         return []
 

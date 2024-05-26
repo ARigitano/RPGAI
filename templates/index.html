@@ -15,6 +15,11 @@
                 <button type="submit" name="pickup" value="{{ obj }}">Add to inventory</button>
                 </p>
             {% endfor %}
+            {% for door in doors %}
+                <p>{{ door }}:
+                <button type="submit" name="adoor" value="{{ door }}">Open</button>
+                </p>
+            {% endfor %}
             <input type="hidden" name="room_description" value="{{ room_description }}">
             <input type="hidden" name="objects" value="{{ objects }}">
         </form>
