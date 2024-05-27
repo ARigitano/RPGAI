@@ -1,12 +1,28 @@
 from openai import OpenAI
 import os
 
+
 # Read the API key from the text file
 api_key_file = os.path.join(os.path.dirname(__file__), 'api_key.txt')
 with open(api_key_file, 'r') as f:
     OPENAI_API_KEY = f.read().strip()
 
 client = OpenAI(api_key=OPENAI_API_KEY)
+
+description_current = ""
+objects_current = []
+doors_current = []
+
+
+def prepare_room():
+    global description_current
+    description_current = generate_room()
+    description_current = description_current.replace("Objects", "objects")
+    description_current = description_current.replace("Doors", "doors")
+    global objects_current
+    objects_current = extract_objects(description_current)
+    global doors_current
+    doors_current = extract_doors(description_current)
 
 
 # Function to generate room description and objects
@@ -63,3 +79,7 @@ def generate_object_description(obj_name):
     )
 
     return response.choices[0].text.strip()
+
+
+
+
