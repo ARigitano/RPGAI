@@ -11,12 +11,16 @@ def index():
         if 'object' in request.form:
             obj_name = request.form['object']
             obj_description = rg.generate_object_description(obj_name)
-            return render_template('index.html', room_description=rg.description_current, objects=rg.objects_current, objDescription=obj_description, inventory=cs.inventory)
+            return render_template('index.html', room_description=rg.description_current, objects=rg.objects_current, doors=rg.doors_current, objDescription=obj_description, inventory=cs.inventory)
         elif 'pickup' in request.form:
             obj_name = request.form['pickup']
             cs.add_to_inventory(obj_name)
             rg.objects_current.remove(obj_name)
-            return render_template('index.html', room_description=rg.description_current, objects=rg.objects_current, inventory=cs.inventory)
+            return render_template('index.html', room_description=rg.description_current, objects=rg.objects_current, doors=rg.doors_current, inventory=cs.inventory)
+        elif 'adoor' in request.form:
+            rg.prepare_room()
+            return render_template('index.html', room_description=rg.description_current, objects=rg.objects_current,
+                                   doors=rg.doors_current, objDescription=None, inventory=cs.inventory)
     else:
         rg.prepare_room()
         return render_template('index.html', room_description=rg.description_current, objects=rg.objects_current, doors=rg.doors_current, objDescription=None)
