@@ -10,8 +10,8 @@
     <p>{{ room_description }}</p>
     {% for obj in objects %}
         <form method="POST" action="/">
-            <button type="submit" name="object" value="{{ obj }}">Describe {{ obj }}</button>
-            <button type="submit" name="pickup" value="{{ obj }}">Pick Up {{ obj }}</button>
+            <button type="submit" name="object" value="{{ obj }}">Inspect {{ obj }}</button>
+            <button type="submit" name="pickup" value="{{ obj }}">Pick up {{ obj }}</button>
         </form>
     {% endfor %}
     {% for door in doors %}
@@ -19,6 +19,12 @@
             <button type="submit" name="adoor" value="{{ door }}">Go through {{ door }}</button>
         </form>
     {% endfor %}
+
+     {% if objDescription %}
+    <h2>Object Description</h2>
+    <p>{{ objDescription }}</p>
+    {% endif %}
+
     <h2>Inventory</h2>
     <ul>
         {% for item in inventory %}
