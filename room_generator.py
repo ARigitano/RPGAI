@@ -1,4 +1,5 @@
 import call_openai as co
+import generation_tools as gt
 
 class Room:
     room_counter = 0
@@ -19,9 +20,9 @@ class Room:
         self.description_current = self.description_current.replace("Objects", "objects")
         self.description_current = self.description_current.replace("Doors", "doors")
         self.description_current = self.description_current.replace("Monster", "monster")
-        self.objects_current = self.extract_elements(self.description_current, "objects")
-        self.doors_current = self.extract_elements(self.description_current, "doors")
-        self.monster_current = self.extract_elements(self.description_current, "monster")
+        self.objects_current = gt.extract_elements(self.description_current, "objects")
+        self.doors_current = gt.extract_elements(self.description_current, "doors")
+        self.monster_current = gt.extract_elements(self.description_current, "monster")
 
     def generate_room(self):
         prompt = ("The player enters a dungeon room. "
@@ -37,17 +38,6 @@ class Room:
     def generate_room_name(self, description):
         prompt = f"Generate a name for a dungeon room that fits that description: {description}"
         return co.call_openai_api(prompt, max_tokens=50)
-
-    def extract_elements(self, description, element_name):
-        start_index = description.find(f"{element_name} = [")
-        end_index = description.find("]", start_index)
-
-        if start_index != -1 and end_index != -1:
-            elements_str = description[start_index + len(f"{element_name} = ["):end_index]
-            elements = [elem.strip("'\" ") for elem in elements_str.split(",")]
-            return elements
-        else:
-            return []
 
     def generate_object_description(self, obj_name):
         prompt = f"Very briefly describe the following item the player found in a RPG dungeon: {obj_name}"

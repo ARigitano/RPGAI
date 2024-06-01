@@ -8,12 +8,13 @@ app = Flask(__name__)
 # Global variable to hold the current Room instance and the list of rooms
 current_room = None
 entered_rooms = []
-player_monster_actions = []
+current_monster = None
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global current_room, entered_rooms, player_monster_actions
+    global current_room, entered_rooms, current_monster
 
+    # Handles the actions of the player
     if request.method == 'POST':
         if 'object' in request.form:
             obj_name = request.form['object']
@@ -43,14 +44,16 @@ def index():
         current_room = rg.Room()
         current_room.prepare_room()
         entered_rooms.append(current_room)
-        player_monster_actions = mg.generate_player_actions(current_room.monster_current)
+        current_monster = mg.Monster()
+        current_monster.monster_name_current = current_room.monster_current
+        current_monster.prepare_monster()
         return render_page()
 
 def render_page(objDescription=None):
     return render_template('index.html', room_description=current_room.description_current,
                            objects=current_room.objects_current, doors=current_room.doors_current,
                            objDescription=objDescription, inventory=cs.inventory, entered_rooms=entered_rooms,
-                           room_name=current_room.room_name_current, player_monster_actions=player_monster_actions)
+                           room_name=current_room.room_name_current, player_monster_actions=current_monster.player_monster_actions_list_current)
 
 if __name__ == "__main__":
     app.run(debug=True)
