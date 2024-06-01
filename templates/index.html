@@ -8,6 +8,7 @@
 <div class="content">
     <H1>{{ room_name }}</H1>
     <p>{{ room_description }}</p>
+    <p>{{ player_monster_actions }}</p>
     {% for obj in objects %}
         <form method="POST" action="/">
             <button type="submit" name="object" value="{{ obj }}">Inspect {{ obj }}</button>
