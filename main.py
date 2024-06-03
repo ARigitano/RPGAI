@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import room_generator as rg
 import character_sheet as cs
 import monster_generator as mg
+import rpg_tool as rt
 
 app = Flask(__name__)
 
@@ -40,6 +41,10 @@ def index():
             room_index = int(request.form['previous_room'])
             current_room = entered_rooms[room_index]
             return render_page()
+        elif 'aplayer_monster_action' in request.form:
+            result_dice = rt.rool_dice_without_characteristic(20)
+            return str(result_dice)
+
     else:
         current_room = rg.Room()
         current_room.prepare_room()
@@ -53,7 +58,8 @@ def render_page(objDescription=None):
     return render_template('index.html', room_description=current_room.description_current,
                            objects=current_room.objects_current, doors=current_room.doors_current,
                            objDescription=objDescription, inventory=cs.inventory, entered_rooms=entered_rooms,
-                           room_name=current_room.room_name_current, player_monster_actions=current_monster.player_monster_actions_list_current)
+                           room_name=current_room.room_name_current, player_monster_actions=current_monster.player_monster_actions_list_current,
+                           player_monster_characteristics=current_monster.player_monster_actions_characteristics_current)
 
 if __name__ == "__main__":
     app.run(debug=True)

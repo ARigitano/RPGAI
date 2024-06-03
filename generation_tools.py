@@ -9,3 +9,24 @@ def extract_elements(description, element_name):
         return elements
     else:
         return []
+
+
+# Extracts actions and their associated characteristics from a text
+def extract_actions_and_characteristics(description):
+    start_index = description.find("actions = [")
+    end_index = description.find("]", start_index)
+
+    actions = []
+    characteristics = []
+
+    if start_index != -1 and end_index != -1:
+        actions_str = description[start_index + len("actions = ["):end_index]
+        actions_list = [action.strip("'\" ") for action in actions_str.split(",")]
+
+        for action in actions_list:
+            action_text, characteristic = action.rsplit("(", 1)
+            characteristic = characteristic.rstrip(")")
+            actions.append(action_text+characteristic.strip())
+            characteristics.append(characteristic.strip())
+
+    return actions, characteristics

@@ -6,12 +6,14 @@ class Monster:
     def __init__(self):
         self.player_monster_actions_current = ""
         self.player_monster_actions_list_current = []
+        self.player_monster_actions_characteristics_current = []
         self.monster_name_current = ""
 
     def prepare_monster(self):
         self.player_monster_actions_current = self.generate_player_actions(self.monster_name_current)
         self.player_monster_actions_current = self.player_monster_actions_current.replace("Actions", "actions")
-        self.player_monster_actions_list_current = gt.extract_elements(self.player_monster_actions_current, "actions")
+        self.player_monster_actions_list_current, self.player_monster_actions_characteristics_current = gt.extract_actions_and_characteristics(
+            self.player_monster_actions_current)
 
     # Function to generate a list of actions for the player toward the monster
     def generate_player_actions(self, monster):
