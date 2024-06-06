@@ -16,8 +16,7 @@ def extract_actions_and_characteristics(description):
     start_index = description.find("actions = [")
     end_index = description.find("]", start_index)
 
-    actions = []
-    characteristics = []
+    actions_and_characteristics = []
 
     if start_index != -1 and end_index != -1:
         actions_str = description[start_index + len("actions = ["):end_index]
@@ -26,7 +25,6 @@ def extract_actions_and_characteristics(description):
         for action in actions_list:
             action_text, characteristic = action.rsplit("(", 1)
             characteristic = characteristic.rstrip(")")
-            actions.append(action_text+characteristic.strip())
-            characteristics.append(characteristic.strip())
+            actions_and_characteristics.append((action_text.strip(), characteristic.strip()))
 
-    return actions, characteristics
+    return actions_and_characteristics

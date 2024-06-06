@@ -1,9 +1,11 @@
-strength = [16, 3]
-constitution = [14, 2]
-dexterity = [12, 1]
-intelligence = [12, 1]
-wisdom = [8, -1]
-charisma = [10, 0]
+characteristics = {
+    "strength": 16,
+    "constitution": 14,
+    "dexterity": 12,
+    "intelligence": 12,
+    "wisdom": 8,
+    "charisma": 10
+}
 
 inventory = []
 

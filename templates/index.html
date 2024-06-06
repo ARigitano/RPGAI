@@ -11,7 +11,7 @@
     <p>{{ player_monster_actions }}</p>
     {% for player_monster_action in player_monster_actions %}
         <form method="POST" action="/">
-            <button type="submit" name="aplayer_monster_action" value="{{ player_monster_action }}">{{ player_monster_action }}</button>
+            <button type="submit" name="aplayer_monster_action" value="{{ player_monster_action[1] }}">{{ player_monster_action }}</button>
         </form>
     {% endfor %}
     {% for obj in objects %}
