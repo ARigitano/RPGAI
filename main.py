@@ -43,10 +43,11 @@ def index():
             return render_page()
         elif 'aplayer_monster_action' in request.form:
             characteristic = cs.characteristics[request.form['aplayer_monster_action']]
-            result_dice = rt.roll_dice_without_characteristic(20)
-            bonus = rt.get_characterictic_bonus(characteristic)
-            total = result_dice + bonus
-            result_str = f"You roll the dice: {result_dice} + {bonus} = {total}"
+            bonus = rt.get_characteristic_bonus(characteristic)
+            result_dice = rt.roll_dice(20, bonus)
+            result_num = result_dice[0] # Numerical roll dice result for the game.
+            result_str = result_dice[1] # Text roll dice result for the player.
+            result_str = result_str
 
             return str(result_str)
 
