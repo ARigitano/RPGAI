@@ -3,6 +3,7 @@ import room_generator as rg
 import character_sheet as cs
 import monster_generator as mg
 import rpg_tool as rt
+import action_tools as at
 
 app = Flask(__name__)
 
@@ -52,7 +53,7 @@ def index():
             result_num = result_dice[0] # Numerical roll dice result for the game.
             result_str = result_dice[1] # Text roll dice result for the player.
             result_str = result_str
-            effect_on_monster = f"The action action affects the monster with a result of {result_num}."
+            effect_on_monster = current_monster.generate_player_action_effect(current_monster.monster_name_current, "Attack with a sword", result_num, 10)
             return render_template('action_result.html', result_str=result_str, effect_on_monster=effect_on_monster)
     else:
         if current_room is None:
