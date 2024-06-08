@@ -4,7 +4,8 @@ characteristics = {
     "dexterity": 12,
     "intelligence": 12,
     "wisdom": 8,
-    "charisma": 10
+    "charisma": 10,
+    "default": 10
 }
 
 inventory = []

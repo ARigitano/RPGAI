@@ -36,29 +36,38 @@ def index():
                 current_room.connections[door_name] = new_room
                 entered_rooms.append(new_room)
                 current_room = new_room
+            prepare_monster_for_current_room()
             return render_page()
         elif 'previous_room' in request.form:
             room_index = int(request.form['previous_room'])
             current_room = entered_rooms[room_index]
             return render_page()
         elif 'aplayer_monster_action' in request.form:
-            characteristic = cs.characteristics[request.form['aplayer_monster_action']]
+            if request.form['aplayer_monster_action'] in cs.characteristics:
+                characteristic = cs.characteristics[request.form['aplayer_monster_action']]
+            else:
+                characteristic = cs.characteristics['default']
             bonus = rt.get_characteristic_bonus(characteristic)
             result_dice = rt.roll_dice(20, bonus)
             result_num = result_dice[0] # Numerical roll dice result for the game.
             result_str = result_dice[1] # Text roll dice result for the player.
             result_str = result_str
-
-            return str(result_str)
-
+            effect_on_monster = f"The action action affects the monster with a result of {result_num}."
+            return render_template('action_result.html', result_str=result_str, effect_on_monster=effect_on_monster)
     else:
-        current_room = rg.Room()
-        current_room.prepare_room()
-        entered_rooms.append(current_room)
-        current_monster = mg.Monster()
-        current_monster.monster_name_current = current_room.monster_current
-        current_monster.prepare_monster()
+        if current_room is None:
+            current_room = rg.Room()
+            current_room.prepare_room()
+            entered_rooms.append(current_room)
+            prepare_monster_for_current_room()
         return render_page()
+
+def prepare_monster_for_current_room():
+    global current_monster
+    current_monster = mg.Monster()
+    current_monster.monster_name_current = current_room.monster_current
+    current_monster.prepare_monster()
+
 
 def render_page(objDescription=None):
     return render_template('index.html', room_description=current_room.description_current,

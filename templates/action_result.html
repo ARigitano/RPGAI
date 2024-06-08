@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>Action Result</h1>
+    <p>{{ result_str }}</p>
+    <p>{{ effect_on_monster }}</p>
+    <form method="GET" action="/">
+        <button type="submit">Return to Index</button>
+    </form>
+</div>
+{% endblock %}

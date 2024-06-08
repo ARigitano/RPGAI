@@ -16,15 +16,16 @@ def extract_actions_and_characteristics(description):
     start_index = description.find("actions = [")
     end_index = description.find("]", start_index)
 
-    actions_and_characteristics = []
+    actions_with_characteristics = []
 
     if start_index != -1 and end_index != -1:
         actions_str = description[start_index + len("actions = ["):end_index]
         actions_list = [action.strip("'\" ") for action in actions_str.split(",")]
 
         for action in actions_list:
-            action_text, characteristic = action.rsplit("(", 1)
-            characteristic = characteristic.rstrip(")")
-            actions_and_characteristics.append((action_text.strip(), characteristic.strip()))
+            if "(" in action and ")" in action:
+                action_text, characteristic = action.rsplit("(", 1)
+                characteristic = characteristic.rstrip(")")
+                actions_with_characteristics.append((action_text.strip(), characteristic.strip()))
 
-    return actions_and_characteristics
+    return actions_with_characteristics
