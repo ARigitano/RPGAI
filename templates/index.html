@@ -8,6 +8,7 @@
 <div class="content">
     <H1>{{ room_name }}</H1>
     <p>{{ room_description }}</p>
+    <p>{{ monster_caracteristics }}</p>
     <p>{{ player_monster_actions }}</p>
     {% for player_monster_action in player_monster_actions %}
         <form method="POST" action="/">

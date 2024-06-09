@@ -34,8 +34,9 @@ class Room:
                   "Finish the description with the list: objects = ['item1', ..., 'itemn']"
                   "Each time the description contains a door the player could go through, add the door as a string in the python list doors. "
                   "Finish the description with the list: doors = ['door1', ..., 'doorn']"
-                  "If the description contains a monster, add the monster as a string in the python list monster. "
-                  "Finish the description with the list: monster = ['monster']")
+                  "If the description contains a monster, add the monster as a string in the python list monster."
+                  "Finish the description with the list: monster = ['monster']"
+                  "Only monsters from the Monster Manual of Dungeons & Dragons can be listed")
         return co.call_openai_api(prompt, max_tokens=400)
 
     def generate_room_name(self, description):

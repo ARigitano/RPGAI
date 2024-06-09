@@ -7,11 +7,20 @@ class Monster:
         self.player_monster_actions_current = ""
         self.player_monster_actions_list_current = []
         self.monster_name_current = ""
+        self.health = 0
+        self.armor_save = 0
 
     def prepare_monster(self):
         self.player_monster_actions_current = self.generate_player_actions(self.monster_name_current)
         self.player_monster_actions_current = self.player_monster_actions_current.replace("Actions", "actions")
         self.player_monster_actions_list_current = gt.extract_actions_and_characteristics(self.player_monster_actions_current)
+
+    def generate_monster_caracteristics(self, monster):
+        prompt = (f"Generate the following caracteristics of this monster from Dungeons & Dragons 3: {monster}."
+                  "Write health = [Give the appropriate number of health]"
+                  "Write armor class = [Give the appropriate number of armor class]"
+                  )
+        return co.call_openai_api(prompt, max_tokens=100)
 
     # Function to generate a list of actions for the player toward the monster
     def generate_player_actions(self, monster):

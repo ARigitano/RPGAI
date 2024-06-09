@@ -11,10 +11,11 @@ app = Flask(__name__)
 current_room = None
 entered_rooms = []
 current_monster = None
+monster_caracteristics = ""
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global current_room, entered_rooms, current_monster
+    global current_room, entered_rooms, current_monster, monster_caracteristics
 
     # Handles the actions of the player
     if request.method == 'POST':
@@ -53,7 +54,9 @@ def index():
             result_num = result_dice[0] # Numerical roll dice result for the game.
             result_str = result_dice[1] # Text roll dice result for the player.
             result_str = result_str
-            effect_on_monster = current_monster.generate_player_action_effect(current_monster.monster_name_current, "Attack with a sword", result_num, 10)
+            result_dice_monster = rt.roll_dice(20, 0)
+            result_num_monster = result_dice_monster[0]
+            effect_on_monster = current_monster.generate_player_action_effect(current_monster.monster_name_current, "Attack with a sword", result_num, result_num_monster)
             return render_template('action_result.html', result_str=result_str, effect_on_monster=effect_on_monster)
     else:
         if current_room is None:
@@ -64,17 +67,19 @@ def index():
         return render_page()
 
 def prepare_monster_for_current_room():
-    global current_monster
+    global current_monster, monster_caracteristics
     current_monster = mg.Monster()
     current_monster.monster_name_current = current_room.monster_current
     current_monster.prepare_monster()
+    monster_caracteristics = current_monster.generate_monster_caracteristics(current_monster.monster_name_current)
 
 
 def render_page(objDescription=None):
     return render_template('index.html', room_description=current_room.description_current,
                            objects=current_room.objects_current, doors=current_room.doors_current,
                            objDescription=objDescription, inventory=cs.inventory, entered_rooms=entered_rooms,
-                           room_name=current_room.room_name_current, player_monster_actions=current_monster.player_monster_actions_list_current
+                           room_name=current_room.room_name_current, player_monster_actions=current_monster.player_monster_actions_list_current,
+                           monster_caracteristics = monster_caracteristics
                            )
 
 if __name__ == "__main__":
