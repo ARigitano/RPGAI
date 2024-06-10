@@ -22,6 +22,7 @@ class Room:
         self.description_current = self.description_current.replace("Doors", "doors")
         self.description_current = self.description_current.replace("doors:", "doors=")
         self.description_current = self.description_current.replace("Monster", "monster")
+        self.description_current = self.description_current.replace("monsters", "monster")
         self.description_current = self.description_current.replace("monster:", "monster=")
         self.objects_current = gt.extract_elements(self.description_current, "objects")
         self.doors_current = gt.extract_elements(self.description_current, "doors")

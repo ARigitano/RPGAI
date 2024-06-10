@@ -54,9 +54,7 @@ def index():
             result_num = result_dice[0] # Numerical roll dice result for the game.
             result_str = result_dice[1] # Text roll dice result for the player.
             result_str = result_str
-            result_dice_monster = rt.roll_dice(20, 0)
-            result_num_monster = result_dice_monster[0]
-            effect_on_monster = current_monster.generate_player_action_effect(current_monster.monster_name_current, "Attack with a sword", result_num, result_num_monster)
+            effect_on_monster = current_monster.generate_player_action_effect(current_monster.monster_name_current, "Attack with a sword", result_num, current_monster.armor_class)
             return render_template('action_result.html', result_str=result_str, effect_on_monster=effect_on_monster)
     else:
         if current_room is None:
@@ -71,7 +69,7 @@ def prepare_monster_for_current_room():
     current_monster = mg.Monster()
     current_monster.monster_name_current = current_room.monster_current
     current_monster.prepare_monster()
-    monster_caracteristics = current_monster.generate_monster_caracteristics(current_monster.monster_name_current)
+    app.logger.debug(current_monster.armor_class)
 
 
 def render_page(objDescription=None):
@@ -79,7 +77,7 @@ def render_page(objDescription=None):
                            objects=current_room.objects_current, doors=current_room.doors_current,
                            objDescription=objDescription, inventory=cs.inventory, entered_rooms=entered_rooms,
                            room_name=current_room.room_name_current, player_monster_actions=current_monster.player_monster_actions_list_current,
-                           monster_caracteristics = monster_caracteristics
+                           monster_caracteristics=monster_caracteristics
                            )
 
 if __name__ == "__main__":
